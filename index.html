@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TecMax</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <div class="logo-fake">Tec<span>Max</span></div>
+
+      <div class="top-buttons">
+        <button id="mostrarForm" class="ativo">Adicionar cliente</button>
+        <button id="btnValores">Valores</button>
+        <button id="btnProdutos">Produtos</button>
+        <button id="btnConfig">Configuração</button>
+      </div>
+    </header>
+
+    <!-- MENU ADICIONAR CLIENTE -->
+    <main id="homeArea">
+
+      <!-- ADICIONAR CLIENTE -->
+      <section id="formSection" class="section-box menu-section">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">🎮</div>
+
+            <div>
+              <h2>Adicionar Cliente</h2>
+              <p>Escolha o vIDUGAME e Bote pra Ciçu Jogar.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-preview">
+          <select id="tipo">
+            <option value="TV">PS5</option>
+            <option value="PC">PC</option>
+          </select>
+
+          <select id="nome" class="escondido"></select>
+
+          <select id="tempo" class="escondido">
+            <option value="30">30 minutos</option>
+            <option value="60">1 hora</option>
+            <option value="90">1 hora e 30 min</option>
+            <option value="120">2 horas</option>
+            <option value="150">2 horas e 30 min</option>
+            <option value="180">3 horas</option>
+            <option value="210">3 horas e 30 min</option>
+            <option value="240">4 horas</option>
+            <option value="270">4 horas e 30 min</option>
+            <option value="300">5 horas</option>
+            <option value="0">Tempo aberto</option>
+            <option value="0.083">Teste 5 segundos</option>
+          </select>
+
+          <button id="adicionar" class="primary-btn">Adicionar</button>
+        </div>
+      </section>
+
+      <!-- RESUMO DO DIA -->
+      <section id="resumoDiaSection" class="section-box fixed-summary-section">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">📊</div>
+
+            <div>
+              <h2>Resumo do Dia</h2>
+              <p>Visual rápido dos atendimentos e valores.</p>
+            </div>
+          </div>
+
+          <span class="pill">Hoje</span>
+        </div>
+
+        <div class="section-content resumo-grid">
+          <div class="info-card">
+            <h3>Clientes ativos</h3>
+            <strong id="resumo-clientes-ativos">0</strong>
+            <small id="resumo-clientes-tipos">0 PS5 / 0 PC</small>
+          </div>
+
+          <div class="info-card">
+            <h3>Total em uso</h3>
+            <strong id="resumo-tempo">R$ 0,00</strong>
+            <small>Somente tempo</small>
+          </div>
+
+          <div class="info-card">
+            <h3>Produtos</h3>
+            <strong id="resumo-produtos">R$ 0,00</strong>
+            <small>Consumo registrado</small>
+          </div>
+
+          <div class="info-card">
+            <h3>Total geral</h3>
+            <strong id="resumo-geral">R$ 0,00</strong>
+            <small>Tempo + produtos</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLIENTES ATIVOS -->
+      <section class="section-box clientes-fixo-section">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">🕒</div>
+
+            <div>
+              <h2>Clientes Ativos</h2>
+              <p>Tempo em andamento dos equipamentos ocupados.</p>
+            </div>
+          </div>
+
+          <span class="pill" id="clientes-count">0 ativos</span>
+        </div>
+
+        <div id="clientes" class="client-grid"></div>
+      </section>
+
+    </main>
+
+    <!-- MENU VALORES -->
+    <section id="valoresSection" class="section-box menu-section menu-principal escondido">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">💰</div>
+
+          <div>
+            <h2>Valores</h2>
+            <p>Histórico de atendimentos e vendas finalizadas.</p>
+          </div>
+        </div>
+
+        <button id="limparHistoricoValores" class="section-action">Limpar histórico</button>
+      </div>
+
+      <div class="valores-toolbar">
+        <select id="filtroValores">
+          <option value="todos">Todos</option>
+          <option value="hoje">Hoje</option>
+          <option value="7">Últimos 7 dias</option>
+          <option value="30">Últimos 30 dias</option>
+          <option value="90">Últimos 90 dias</option>
+        </select>
+
+        <div class="valor-periodo-card">
+          <span>Total do período</span>
+          <strong id="totalPeriodoValores">R$ 0,00</strong>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="historicoTable">
+          <thead>
+            <tr>
+              <th>Cliente/Venda</th>
+              <th>Tipo</th>
+              <th>Total</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="show-more-area">
+        <button id="mostrarMaisValores" class="primary-btn secundario escondido">Exibir mais</button>
+      </div>
+    </section>
+
+    <!-- MENU PRODUTOS -->
+    <section id="produtosSection" class="section-box menu-section menu-principal produtos-section escondido">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">🛒</div>
+
+          <div>
+            <h2>Produtos</h2>
+            <p>Cadastre produtos ou registre uma venda rápida.</p>
+          </div>
+        </div>
+
+        <div class="produtos-header-actions">
+          <button id="abrirModalProduto" class="section-action">+ Produto</button>
+          <button id="btnModoVenda" class="section-action venda-btn">Vender Produto</button>
+        </div>
+      </div>
+
+      <div id="vendaProdutosArea" class="venda-produtos-area escondido">
+        <div class="venda-topo">
+          <input type="text" id="buscaVendaProduto" placeholder="Buscar produto para venda...">
+
+          <div class="carrinho-card">
+            <span>Carrinho</span>
+            <strong id="totalCarrinho">R$ 0,00</strong>
+            <small id="itensCarrinho">0 itens</small>
+          </div>
+        </div>
+
+        <div id="listaCarrinho" class="lista-carrinho"></div>
+
+        <div class="venda-actions">
+          <button id="finalizarVendaProduto" class="primary-btn">Finalizar venda</button>
+          <button id="cancelarVendaProduto" class="primary-btn secundario">Cancelar venda</button>
+        </div>
+      </div>
+
+      <div id="lista-produtos"></div>
+
+      <div class="show-more-area">
+        <button id="mostrarMaisProdutos" class="primary-btn secundario escondido">Exibir mais</button>
+      </div>
+    </section>
+
+    <!-- MENU CONFIGURAÇÃO -->
+    <section id="configSection" class="section-box menu-section menu-principal escondido">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">⚙️</div>
+
+          <div>
+            <h2>Configuração</h2>
+            <p>Preços por hora e backup de clientes ativos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-grid">
+        <div class="config-card">
+          <label>Preço PS5 (R$/h)</label>
+          <input type="number" id="precoPS5" step="0.01" min="0">
+          <button id="salvarPS5" class="primary-btn">Salvar PS5</button>
+        </div>
+
+        <div class="config-card">
+          <label>Preço PC (R$/h)</label>
+          <input type="number" id="precoPC" step="0.01" min="0">
+          <button id="salvarPC" class="primary-btn">Salvar PC</button>
+        </div>
+
+        <div class="config-card">
+          <label>Backup de clientes ativos</label>
+          <button id="exportClientes" class="primary-btn">Exportar</button>
+          <input type="file" id="importFile" accept=".json" class="escondido">
+          <button id="importClientes" class="primary-btn secundario">Importar</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MODAL CLIENTE -->
+  <div id="modal" class="modal escondido">
+    <div class="modal-content">
+      <h2>
+        <span id="modal-nome-text"></span>
+        <span id="modal-edit" class="edit-icon">🖉</span>
+      </h2>
+
+      <p><strong>Início:</strong> <span id="modal-inicio"></span></p>
+      <p><strong>Tempo:</strong> <span id="modal-tempo"></span></p>
+      <p><strong>Valor tempo:</strong> R$ <span id="modal-valor"></span></p>
+
+      <h3>Produtos Consumidos</h3>
+      <ul id="modal-consumos"></ul>
+
+      <p><strong>Total produtos:</strong> R$ <span id="modal-total-produtos">0,00</span></p>
+      <p><strong>Total geral:</strong> R$ <span id="modal-total-geral">0,00</span></p>
+
+      <div class="modal-add-produto">
+        <select id="modal-produtos-lista"></select>
+        <button id="modal-adicionar-produto" class="primary-btn">+ Produto</button>
+      </div>
+
+      <div class="modal-actions">
+        <select id="modal-tempos-lista" class="escondido">
+          <option value="30">30 minutos</option>
+          <option value="60">1 hora</option>
+          <option value="90">1 hora e 30 min</option>
+          <option value="120">2 horas</option>
+          <option value="150">2 horas e 30 min</option>
+          <option value="180">3 horas</option>
+          <option value="210">3 horas e 30 min</option>
+          <option value="240">4 horas</option>
+          <option value="270">4 horas e 30 min</option>
+          <option value="300">5 horas</option>
+        </select>
+
+        <button id="modal-adicionar-tempo" class="primary-btn escondido">+ Tempo</button>
+        <button id="modal-parar" class="primary-btn">Parar</button>
+        <button id="modal-fechar" class="primary-btn secundario">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PRODUTO -->
+  <div id="modal-produto" class="modal escondido">
+    <div class="modal-content">
+      <h2>Novo Produto</h2>
+
+      <input type="text" id="produto-nome" placeholder="Nome do produto">
+      <input type="number" id="produto-valor" placeholder="Valor (R$)" step="0.01" min="0">
+      <input type="number" id="produto-quantidade" placeholder="Quantidade opcional" min="0">
+
+      <div class="modal-actions">
+        <button id="salvarProduto" class="primary-btn">Salvar</button>
+        <button id="fecharModalProduto" class="primary-btn secundario">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
