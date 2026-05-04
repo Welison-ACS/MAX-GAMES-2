@@ -33,8 +33,8 @@ const precoPCInput = document.getElementById("precoPC");
 const salvarPS5Btn = document.getElementById("salvarPS5");
 const salvarPCBtn = document.getElementById("salvarPC");
 
-const btnExport = document.getElementById("exportClientes");
-const btnImport = document.getElementById("importClientes");
+const btnExportSistema = document.getElementById("exportSistema");
+const btnImportSistema = document.getElementById("importSistema");
 const importFile = document.getElementById("importFile");
 
 const listaProdutos = document.getElementById("lista-produtos");
@@ -260,20 +260,39 @@ salvarPCBtn.onclick = async () => {
   await appAlert("Preço do PC salvo com sucesso.");
 };
 
-btnExport.onclick = () => {
-  const data = JSON.stringify(clientes, null, 2);
+btnExportSistema.onclick = async () => {
+  const backup = {
+    versao: 1,
+    geradoEm: new Date().toISOString(),
+    sistema: "TecMax",
+    dados: {
+      clientes,
+      historico,
+      produtos,
+      configuracoes: {
+        precoPS5: localStorage.getItem("precoPS5") || "6",
+        precoPC: localStorage.getItem("precoPC") || "6"
+      }
+    }
+  };
+
+  const data = JSON.stringify(backup, null, 2);
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
+  const dataNome = new Date().toISOString().slice(0, 10);
   const a = document.createElement("a");
+
   a.href = url;
-  a.download = "clientes-ativos.json";
+  a.download = `backup-tecmax-${dataNome}.json`;
   a.click();
 
   URL.revokeObjectURL(url);
+
+  await appAlert("Backup do sistema exportado com sucesso.");
 };
 
-btnImport.onclick = () => importFile.click();
+btnImportSistema.onclick = () => importFile.click();
 
 importFile.onchange = e => {
   const file = e.target.files[0];
@@ -283,21 +302,50 @@ importFile.onchange = e => {
 
   reader.onload = async evt => {
     try {
-      const data = JSON.parse(evt.target.result);
+      const backup = JSON.parse(evt.target.result);
 
-      if (!Array.isArray(data)) {
-        await appAlert("Arquivo inválido.", "Erro");
+      if (!backup || !backup.dados) {
+        await appAlert("Arquivo de backup inválido.", "Erro");
+        importFile.value = "";
         return;
       }
 
-      clientes = data;
+      const confirmar = await appConfirm("Importar este backup? Os dados atuais serão substituídos.");
+
+      if (!confirmar) {
+        importFile.value = "";
+        return;
+      }
+
+      clientes = Array.isArray(backup.dados.clientes) ? backup.dados.clientes : [];
+      historico = Array.isArray(backup.dados.historico) ? backup.dados.historico : [];
+      produtos = Array.isArray(backup.dados.produtos) ? backup.dados.produtos : [];
+
+      const config = backup.dados.configuracoes || {};
+
+      localStorage.setItem("precoPS5", config.precoPS5 || "6");
+      localStorage.setItem("precoPC", config.precoPC || "6");
+
+      precoPS5Input.value = localStorage.getItem("precoPS5") || 6;
+      precoPCInput.value = localStorage.getItem("precoPC") || 6;
+
       salvarClientes();
+      salvarHistorico();
+      salvarProdutos();
+
       renderClientes();
+      renderHistorico();
+      renderProdutos();
+      renderProdutosModal();
+      atualizarNomeETempo();
       atualizarResumoDia();
-      await appAlert("Clientes importados com sucesso.");
+
+      await appAlert("Backup importado com sucesso.");
     } catch {
-      await appAlert("Arquivo inválido.", "Erro");
+      await appAlert("Arquivo de backup inválido.", "Erro");
     }
+
+    importFile.value = "";
   };
 
   reader.readAsText(file);
