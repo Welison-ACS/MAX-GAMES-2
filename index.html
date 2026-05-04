@@ -24,10 +24,8 @@
       </div>
     </header>
 
-    <!-- MENU ADICIONAR CLIENTE -->
     <main id="homeArea">
 
-      <!-- ADICIONAR CLIENTE -->
       <section id="formSection" class="section-box menu-section">
         <div class="section-header">
           <div class="section-title">
@@ -67,7 +65,6 @@
         </div>
       </section>
 
-      <!-- RESUMO DO DIA -->
       <section id="resumoDiaSection" class="section-box fixed-summary-section">
         <div class="section-header">
           <div class="section-title">
@@ -109,7 +106,6 @@
         </div>
       </section>
 
-      <!-- CLIENTES ATIVOS -->
       <section class="section-box clientes-fixo-section">
         <div class="section-header">
           <div class="section-title">
@@ -129,7 +125,6 @@
 
     </main>
 
-    <!-- MENU VALORES -->
     <section id="valoresSection" class="section-box menu-section menu-principal escondido">
       <div class="section-header">
         <div class="section-title">
@@ -178,7 +173,6 @@
       </div>
     </section>
 
-    <!-- MENU PRODUTOS -->
     <section id="produtosSection" class="section-box menu-section menu-principal produtos-section escondido">
       <div class="section-header">
         <div class="section-title">
@@ -222,7 +216,6 @@
       </div>
     </section>
 
-    <!-- MENU CONFIGURAÇÃO -->
     <section id="configSection" class="section-box menu-section menu-principal escondido">
       <div class="section-header">
         <div class="section-title">
@@ -257,25 +250,42 @@
       </div>
     </section>
 
+    <footer class="footer-dev">
+      Projeto ainda em Desenvolvimento. Se achar a desgraça de um bug, reporte. ou não, vc quem sabe. Eu reportaria...
+    </footer>
+
   </div>
 
-  <!-- MODAL CLIENTE -->
   <div id="modal" class="modal escondido">
-    <div class="modal-content">
-      <h2>
-        <span id="modal-nome-text"></span>
-        <span id="modal-edit" class="edit-icon">🖉</span>
-      </h2>
+    <div class="modal-content modal-cliente">
+      <div class="modal-cliente-topo">
+        <div>
+          <h2>
+            <span id="modal-nome-text"></span>
+            <button id="modal-edit" class="edit-name-btn" title="Editar nome">✎</button>
+          </h2>
+          <span id="modal-status" class="modal-status">Em andamento</span>
+        </div>
 
-      <p><strong>Início:</strong> <span id="modal-inicio"></span></p>
-      <p><strong>Tempo:</strong> <span id="modal-tempo"></span></p>
-      <p><strong>Valor tempo:</strong> R$ <span id="modal-valor"></span></p>
+        <div id="modal-device-icon" class="modal-device-icon"></div>
+      </div>
 
-      <h3>Produtos Consumidos</h3>
-      <ul id="modal-consumos"></ul>
+      <div class="modal-info-grid">
+        <div class="modal-info-card">
+          <span>Início</span>
+          <strong id="modal-inicio"></strong>
+        </div>
 
-      <p><strong>Total produtos:</strong> R$ <span id="modal-total-produtos">0,00</span></p>
-      <p><strong>Total geral:</strong> R$ <span id="modal-total-geral">0,00</span></p>
+        <div class="modal-info-card">
+          <span>Tempo</span>
+          <strong id="modal-tempo"></strong>
+        </div>
+
+        <div class="modal-info-card destaque">
+          <span>Valor de uso</span>
+          <strong>R$ <span id="modal-valor"></span></strong>
+        </div>
+      </div>
 
       <div class="modal-add-produto">
         <select id="modal-produtos-lista"></select>
@@ -303,7 +313,6 @@
     </div>
   </div>
 
-  <!-- MODAL PRODUTO -->
   <div id="modal-produto" class="modal escondido">
     <div class="modal-content">
       <h2>Novo Produto</h2>
@@ -315,6 +324,23 @@
       <div class="modal-actions">
         <button id="salvarProduto" class="primary-btn">Salvar</button>
         <button id="fecharModalProduto" class="primary-btn secundario">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-alert-modal" class="modal escondido">
+    <div class="modal-content app-alert-content">
+      <div class="app-alert-icon" id="app-alert-icon">✓</div>
+      <h2 id="app-alert-title">Aviso</h2>
+      <p id="app-alert-message"></p>
+
+      <div id="app-prompt-area" class="app-prompt-area escondido">
+        <input type="text" id="app-prompt-input">
+      </div>
+
+      <div class="modal-actions">
+        <button id="app-alert-cancel" class="primary-btn secundario escondido">Cancelar</button>
+        <button id="app-alert-ok" class="primary-btn">OK</button>
       </div>
     </div>
   </div>
